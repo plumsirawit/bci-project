@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="login()" [formGroup]="loginForm">
+    <ion-list inset>
+      <ion-item [ngClass]="{ invalid: emailErrors.hasError('*', ['touched', 'dirty']) }">
+        <ion-input type="text" placeholder="Email" formControlName="email"></ion-input>
+      </ion-item>
+      <div ngxErrors="email" #emailErrors="ngxErrors">
+        <div [ngxError]="['email', 'required']" [when]="['touched', 'dirty']">Invalid Email</div>
+      </div>
+      <ion-item [ngClass]="{ invalid: passwordErrors.hasError('*', ['touched']) }">
+        <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
+      </ion-item>
+      <div ngxErrors="password" #passwordErrors="ngxErrors">
+        <div [ngxError]="['minlength', 'required']" [when]="['touched']">It should be at least 8 characters</div>
+      </div>
+    </ion-list>
+    <div padding-horizontal>
+      <div class="form-error">{{loginError}}</div>
+      <button ion-button full type="submit" [disabled]="!loginForm.valid">Log In</button>
+      <div class="login-footer">
+        <p>
+          <a href="#">Forgot Password?</a>
+          If you're a new user, please sign up.
+        </p>
+      </div>
+      <button ion-button icon-left block clear (click)="signup()">
+        <ion-icon name="person-add"></ion-icon>
+        Sign Up
+      </button>
+    </div>
+  </form>
+</ion-content>
