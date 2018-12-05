@@ -21,4 +21,12 @@ export class AuthService {
     console.log('Signing Up');
     return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
   }
+  
+  get authenticated(): boolean {
+    return this.user !== null;
+  }
+
+  getEmail() {
+    return this.user && this.user.email;
+  }
 }
