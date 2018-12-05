@@ -30,6 +30,7 @@
     "@ionic/pro": "2.0.3",
     "@ionic/storage": "^2.2.0",
     "@types/lodash": "^4.14.119",
+    "@ultimate/ngxerrors": "^1.4.0",
     "cordova-plugin-firebase": "^2.0.5",
     "es6-promise": "^4.2.5",
     "es6-shim": "^0.35.4",

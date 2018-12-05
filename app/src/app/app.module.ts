@@ -15,7 +15,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { firebaseConfig } from '../config';
-
+import { AuthService } from '../services/auth.service';
+import { NgxErrorsModule } from '@ultimate/ngxerrors';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { firebaseConfig } from '../config';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig.fire)
+    AngularFireModule.initializeApp(firebaseConfig.fire),
+    NgxErrorsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -44,7 +46,8 @@ import { firebaseConfig } from '../config';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AngularFireAuth
+    AngularFireAuth,
+    AuthService
   ]
 })
 export class AppModule {}
