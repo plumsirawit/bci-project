@@ -18,6 +18,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { firebaseConfig } from '../config';
 import { AuthService } from '../services/auth.service';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
+import { SplashPage } from '../pages/splash/splash';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     HomePage,
     TabsPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    SplashPage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     HomePage,
     TabsPage,
     LoginPage,
-    SignupPage
+    SignupPage,
+    SplashPage
   ],
   providers: [
     StatusBar,

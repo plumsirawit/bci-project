@@ -5,13 +5,13 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../services/auth.service';
 import { TabsPage } from '../pages/tabs/tabs';
-import { AboutPage } from '../pages/about/about';
+import { SplashPage } from '../pages/splash/splash';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = AboutPage;
+  rootPage:any = SplashPage;
 
   @ViewChild(Nav) nav: Nav;
 
@@ -20,6 +20,7 @@ export class MyApp {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
+      setTimeout( () => {
       auth.afAuth.authState.subscribe(
         user => {
           if (user) {
@@ -33,6 +34,7 @@ export class MyApp {
           this.rootPage = LoginPage;
         }
       );
+    }, 2000);
     });
   }
 
