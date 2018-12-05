@@ -8,6 +8,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
+import { SignupPage } from '../pages/signup/signup';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -25,7 +26,8 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    SignupPage
   ],
   imports: [
     BrowserModule,
@@ -40,7 +42,8 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
     ContactPage,
     HomePage,
     TabsPage,
-    LoginPage
+    LoginPage,
+    SignupPage
   ],
   providers: [
     StatusBar,
