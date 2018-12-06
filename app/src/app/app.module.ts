@@ -17,14 +17,12 @@ import { AuthService } from '../services/auth.service';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { SplashPage } from '../pages/splash/splash';
 import { FriendsPage } from '../pages/friends/friends';
-import { ChatsPage } from '../pages/chats/chats';
 import { AccountPage } from '../pages/account/account';
 
 @NgModule({
   declarations: [
     MyApp,
     FriendsPage,
-    ChatsPage,
     AccountPage,
     TabsPage,
     LoginPage,
@@ -41,7 +39,6 @@ import { AccountPage } from '../pages/account/account';
   entryComponents: [
     MyApp,
     FriendsPage,
-    ChatsPage,
     AccountPage,
     TabsPage,
     LoginPage,
