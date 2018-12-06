@@ -3,9 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { AboutPage } from '../pages/about/about';
-import { ContactPage } from '../pages/contact/contact';
-import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
@@ -19,13 +16,16 @@ import { firebaseConfig } from '../config';
 import { AuthService } from '../services/auth.service';
 import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { SplashPage } from '../pages/splash/splash';
+import { FriendsPage } from '../pages/friends/friends';
+import { ChatsPage } from '../pages/chats/chats';
+import { AccountPage } from '../pages/account/account';
 
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    FriendsPage,
+    ChatsPage,
+    AccountPage,
     TabsPage,
     LoginPage,
     SignupPage,
@@ -40,9 +40,9 @@ import { SplashPage } from '../pages/splash/splash';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    FriendsPage,
+    ChatsPage,
+    AccountPage,
     TabsPage,
     LoginPage,
     SignupPage,
