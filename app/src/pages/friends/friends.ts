@@ -6,9 +6,14 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'friends.html'
 })
 export class FriendsPage {
-
+  items: Array<any>;
   constructor(public navCtrl: NavController) {
+    this.items = new Array();
+    this.items.push({'name': 'OK'});
+  }
 
+  clicked(item: any){
+    console.log(item.name);
   }
 
 }

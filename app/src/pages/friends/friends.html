@@ -12,12 +12,11 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <button ion-item *ngFor="let item of items" (click)="clicked(item)">
       <ion-avatar item-start>
         <img src="assets/imgs/logo.png">
       </ion-avatar>
-      <h2>Cher</h2>
-      <p>Ugh. As if.</p>
-    </ion-item>
+      {{item.name}}
+    </button>
   </ion-list>
 </ion-content>
