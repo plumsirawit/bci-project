@@ -18,6 +18,7 @@ import { NgxErrorsModule } from '@ultimate/ngxerrors';
 import { SplashPage } from '../pages/splash/splash';
 import { FriendsPage } from '../pages/friends/friends';
 import { AccountPage } from '../pages/account/account';
+import { ChatPage } from '../pages/chat/chat';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { AccountPage } from '../pages/account/account';
     TabsPage,
     LoginPage,
     SignupPage,
-    SplashPage
+    SplashPage,
+    ChatPage
   ],
   imports: [
     BrowserModule,
@@ -43,7 +45,8 @@ import { AccountPage } from '../pages/account/account';
     TabsPage,
     LoginPage,
     SignupPage,
-    SplashPage
+    SplashPage,
+    ChatPage
   ],
   providers: [
     StatusBar,
