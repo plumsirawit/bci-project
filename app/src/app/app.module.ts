@@ -11,6 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { firebaseConfig } from '../config';
 import { AuthService } from '../services/auth.service';
@@ -35,6 +36,7 @@ import { ChatPage } from '../pages/chat/chat';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig.fire),
+    AngularFirestoreModule,
     NgxErrorsModule
   ],
   bootstrap: [IonicApp],
