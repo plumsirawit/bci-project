@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { ChatPage } from '../chat/chat';
 
 @Component({
   selector: 'page-friends',
@@ -13,6 +14,7 @@ export class FriendsPage {
   }
 
   clicked(item: any){
+    this.navCtrl.push(ChatPage, {item: item});
     console.log(item.name);
   }
 
