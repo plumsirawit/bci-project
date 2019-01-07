@@ -20,6 +20,7 @@ import { SplashPage } from '../pages/splash/splash';
 import { FriendsPage } from '../pages/friends/friends';
 import { AccountPage } from '../pages/account/account';
 import { ChatPage } from '../pages/chat/chat';
+import { AddFriendPage } from '../pages/addfriend/addfriend';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ChatPage } from '../pages/chat/chat';
     LoginPage,
     SignupPage,
     SplashPage,
-    ChatPage
+    ChatPage,
+    AddFriendPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import { ChatPage } from '../pages/chat/chat';
     LoginPage,
     SignupPage,
     SplashPage,
-    ChatPage
+    ChatPage,
+    AddFriendPage
   ],
   providers: [
     StatusBar,

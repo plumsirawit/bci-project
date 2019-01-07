@@ -1,0 +1,20 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Add Devices</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Device ID</ion-label>
+      <ion-input type="text" [(ngModel)]="did"></ion-input>
+    </ion-item>
+  </ion-list>
+  <button ion-button full (click)="connect()">
+    Add Device
+  </button>
+</ion-content>
