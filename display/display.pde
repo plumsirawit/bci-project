@@ -22,16 +22,16 @@ void disp(int part){
 
   switch(part) {
     case UPPERLEFT:
-    image(scr.get(currentState*4+1), 0, 0);
+    image(scr.get(currentState*4+1), 0, 0, width/2, height/2);
     break;
     case UPPERRIGHT:
-    image(scr.get(currentState*4+2), width/2, 0);
+    image(scr.get(currentState*4+2), width/2, 0, width/2, height/2);
     break;
     case LOWERLEFT:
-    image(scr.get(currentState*4+3), 0, height/2);
+    image(scr.get(currentState*4+3), 0, height/2, width/2, height/2);
     break;
     case LOWERRIGHT:
-    image(scr.get(currentState*4+4), width/2, height/2);
+    image(scr.get(currentState*4+4), width/2, height/2, width/2, height/2);
     break;
   }
 }
