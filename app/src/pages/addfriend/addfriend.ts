@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 export class AddFriendPage {
   did: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, private firestore: AngularFirestore, public alertCtrl: AlertController, private auth: AuthService) {
-    
+    this.did = "";
   }
   connect(){
     this.firestore.collection<BCIUserData>('bci_users', ref => ref.where('id','==',this.did)).valueChanges().subscribe(e => {
@@ -23,21 +23,27 @@ export class AddFriendPage {
           buttons: ['OK']
         }).present();
       }else if(e.length == 1){
-        this.firestore.collection<PhoneUserData>('phone_users',ref => ref.where('UID','==',this.auth.getUID())).snapshotChanges().pipe(
-          map(actions => actions.map(a => {
-              console.log('[DEBUG]');
-              const data = a.payload.doc.data();
-              const id = a.payload.doc.id;
-              var tconn = data.conn;
+        var curdid = this.did;
+        this.firestore.collection<PhoneUserData>('phone_users',ref => ref.where('UID','==',this.auth.getUID())).snapshotChanges().map(actions => 
+          actions.map(a => {
+            console.log('[DEBUG]');
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return {id, ...data};
+          })
+        ).subscribe(b => {
+          if(curdid != ""){
+            b.forEach(dat => {
+              var tconn = dat.conn;
               var dup = false;
               tconn.forEach(function(value: string, index: number, array: string[]){
-                if(value == this.did){
+                if(value == curdid){
                   dup = true;
                 }
               });
               if(!dup){
-                tconn.push(this.did);
-                this.firestore.doc<PhoneUserData>('phone_users/' + id).update({
+                tconn.push(curdid);
+                this.firestore.doc<PhoneUserData>('phone_users/' + dat.id).update({
                   conn: tconn,
                 });
               }else{
@@ -47,10 +53,10 @@ export class AddFriendPage {
                   buttons: ['OK'],
                 }).present();
               }
-              return {id, ...data};
-            })
-          )
-        );
+            });
+            curdid = "";
+          }
+        });  
       }else{
         this.alertCtrl.create({
           title: 'Invalid Data!',
@@ -59,5 +65,6 @@ export class AddFriendPage {
         }).present();
       }
     });
+    this.navCtrl.pop();
   }
 }
