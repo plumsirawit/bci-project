@@ -12,7 +12,7 @@
 
 <ion-content padding>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="clicked(item)">
+    <button ion-item *ngFor="let item of items | async" (click)="clicked(item)">
       <h2>
         {{item.name}}  
       </h2>

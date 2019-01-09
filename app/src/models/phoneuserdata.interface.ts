@@ -1,4 +1,4 @@
 export interface PhoneUserData {
-    UID: string;
-    conn: string[];
+    UID: String;
+    conn: String[];
 }

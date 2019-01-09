@@ -1,4 +1,5 @@
 export interface BCIUserData {
-    id: string;
-    name: string;
+    id: String;
+    name: String;
+    conn: String;
 }
