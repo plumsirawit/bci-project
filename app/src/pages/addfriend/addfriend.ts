@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { BCIUserData } from '../../models/bciuserdata.interface';
 import { AuthService } from '../../services/auth.service';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
-import { map } from 'rxjs/operators';
+
 @Component({
   selector: 'page-addfriend',
   templateUrl: 'addfriend.html'

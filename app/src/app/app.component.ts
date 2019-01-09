@@ -21,7 +21,7 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       setTimeout( () => {
-      auth.afAuth.authState.subscribe(
+      this.auth.afAuth.authState.subscribe(
         user => {
           if (user) {
             this.rootPage = TabsPage;
