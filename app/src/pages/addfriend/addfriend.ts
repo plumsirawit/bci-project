@@ -4,6 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { BCIUserData } from '../../models/bciuserdata.interface';
 import { AuthService } from '../../services/auth.service';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
+import { ChatData } from '../../models/chatdata.interface';
 
 @Component({
   selector: 'page-addfriend',
@@ -51,6 +52,21 @@ export class AddFriendPage {
                 tconn.push(curdid);
                 curdid = "";
                 var insubprocess = false;
+                var ready = true;
+                this.firestore.collection<ChatData>('bci_users/'+e[0].bid+'/chat').snapshotChanges().map(actions => actions.map(a => {
+                  const data = a.payload.doc.data();
+                  const id = a.payload.doc.id;
+                  return {id, ...data};
+                })).subscribe(vch => {
+                  if(ready){
+                    vch.forEach(docu => {
+                      ready = false;
+                      console.log(docu.id);
+                      this.firestore.doc<ChatData>('bci_users/'+e[0].bid+'/chat/'+docu.id).delete().catch(error => console.log(error));
+                      ready = true;
+                    });
+                  }
+                })
                 this.firestore.collection<PhoneUserData>('phone_users',ref => ref.where('UID','==',e[0].conn)).snapshotChanges().map(actions => actions.map(y => {
                   const data = y.payload.doc.data();
                   const id = y.payload.doc.id;
