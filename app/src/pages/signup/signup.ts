@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NavController } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs';
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
+import { FriendsPage } from '../friends/friends';
 
 @Component({
 	selector: 'as-page-signup',
@@ -32,7 +32,7 @@ export class SignupPage {
         UID: a.user.uid,
         conn: []
       });
-      this.navCtrl.setRoot(TabsPage);
+      this.navCtrl.setRoot(FriendsPage);
     }).catch(err => {
       this.signupError = err.message;
     })

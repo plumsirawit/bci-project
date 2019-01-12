@@ -4,8 +4,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { LoginPage } from '../pages/login/login';
 import { AuthService } from '../services/auth.service';
-import { TabsPage } from '../pages/tabs/tabs';
 import { SplashPage } from '../pages/splash/splash';
+import { FriendsPage } from '../pages/friends/friends';
 
 @Component({
   templateUrl: 'app.html'
@@ -24,7 +24,7 @@ export class MyApp {
       this.auth.afAuth.authState.subscribe(
         user => {
           if (user) {
-            this.rootPage = TabsPage;
+            this.rootPage = FriendsPage;
           } else {
             this.rootPage = LoginPage;
           }

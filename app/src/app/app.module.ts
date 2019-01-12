@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
-import { TabsPage } from '../pages/tabs/tabs';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 
@@ -27,7 +26,6 @@ import { AddFriendPage } from '../pages/addfriend/addfriend';
     MyApp,
     FriendsPage,
     AccountPage,
-    TabsPage,
     LoginPage,
     SignupPage,
     SplashPage,
@@ -46,7 +44,6 @@ import { AddFriendPage } from '../pages/addfriend/addfriend';
     MyApp,
     FriendsPage,
     AccountPage,
-    TabsPage,
     LoginPage,
     SignupPage,
     SplashPage,
