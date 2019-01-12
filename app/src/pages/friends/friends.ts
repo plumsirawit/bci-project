@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, ItemSliding } from 'ionic-angular';
+import { NavController, ModalController} from 'ionic-angular';
 import { ChatPage } from '../chat/chat';
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
 import { BCIUserData } from '../../models/bciuserdata.interface';
 import { AddFriendPage } from '../addfriend/addfriend';
-import { flatMap, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+
 @Component({
   selector: 'page-friends',
   templateUrl: 'friends.html'
