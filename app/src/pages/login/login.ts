@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { TabsPage } from '../tabs/tabs';
 import { SignupPage } from '../signup/signup';
+import { FriendsPage } from '../friends/friends';
 
 @Component({
   selector: 'page-login',
@@ -30,7 +30,7 @@ export class LoginPage {
     };
     this.auth.signInWithEmail(credentials)
       .then(
-        () => this.navCtrl.setRoot(TabsPage),
+        () => this.navCtrl.setRoot(FriendsPage),
         error => this.loginError = error.message
       );
   }

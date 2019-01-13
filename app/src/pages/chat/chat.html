@@ -1,6 +1,11 @@
 <ion-header>
 
   <ion-navbar>
+    <ion-buttons start>
+      <button ion-button icon-only (click)="confDeleteChat()">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>{{title}}</ion-title>
   </ion-navbar>
 
@@ -8,5 +13,40 @@
 
 
 <ion-content padding>
-
+  <ion-list>
+    <ion-item *ngFor="let chat of chats" no-lines>
+      <div *ngIf="chat.type == 'message'">
+        <div class="chat-message" text-right *ngIf="chat.sender == 'phone'">
+          <div class="right-bubble">
+            <span class="msg-date">{{chat.timestamp.seconds * 1000 | date:'short'}}</span>
+            <p text-wrap>{{chat.data}}</p>
+          </div>
+          <div class="right-read">
+            <span class="msg-read" *ngIf="chat.read">Read</span>
+          </div>
+        </div>
+        <div class="chat-message" text-left *ngIf="chat.sender == 'bci'">
+          <div class="left-bubble">
+            <span class="msg-date">{{chat.timestamp.seconds * 1000 | date:'short'}}</span>
+            <p text-wrap>{{chat.data}}</p>
+          </div>
+        </div>
+      </div>
+    </ion-item>
+  </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-10>
+        <ion-input type="text" placeholder="Type a message" [(ngModel)]="data.data" name="message" (ionChange)='textChange()'></ion-input>
+      </ion-col>
+      <ion-col class="btn-send-wrapper" col-2 (click)="sendMessage()">
+        <div [class]="senderClass">
+          <ion-icon name="send"></ion-icon>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>

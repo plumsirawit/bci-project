@@ -5,4 +5,5 @@ export interface ChatData {
     sender: String;
     timestamp: Timestamp;
     type: String;
+    read: Boolean;
 }

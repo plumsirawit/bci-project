@@ -62,7 +62,7 @@ export class FriendsPage {
       })
     });
   }
-  clicked(item: any){
+  clicked(item: BCIUserData){
     this.navCtrl.push(ChatPage, {item: item});
     console.log(item.name);
   }
