@@ -7,6 +7,7 @@ import { PhoneUserData } from '../../models/phoneuserdata.interface';
 import { BCIUserData } from '../../models/bciuserdata.interface';
 import { AddFriendPage } from '../addfriend/addfriend';
 import { LoginPage } from '../login/login';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-friends',
@@ -14,13 +15,16 @@ import { LoginPage } from '../login/login';
 })
 export class FriendsPage {
   items: BCIUserData[];
+  tsub: Subscription;
+  subs: Subscription[];
   constructor(public navCtrl: NavController, private auth: AuthService, private firestore: AngularFirestore, public modalCtrl: ModalController) {
     if(!this.auth.authenticated){
       this.navCtrl.setRoot(LoginPage);
       return;
     }
     this.items = [];
-    this.firestore.collection<PhoneUserData>('phone_users', ref => ref.where('UID','==',this.auth.getUID())).snapshotChanges().map(actions => actions.map(a => {
+    this.subs = [];
+    this.tsub = (this.firestore.collection<PhoneUserData>('phone_users', ref => ref.where('UID','==',this.auth.getUID())).snapshotChanges().map(actions => actions.map(a => {
         const data = a.payload.doc.data();
         const id = a.payload.doc.id;
         return {id, ...data};
@@ -29,7 +33,7 @@ export class FriendsPage {
       b.forEach(a => {
         if(a.UID == this.auth.getUID()){
           a.conn.forEach(element => {
-            this.firestore.collection<BCIUserData>('bci_users', ref => ref.where('id','==',element)).valueChanges().subscribe(e => {
+            this.subs.push(this.firestore.collection<BCIUserData>('bci_users', ref => ref.where('id','==',element)).valueChanges().subscribe(e => {
               if(e.length == 1){
                 var chk = false;
                 this.items.forEach(function(value: any, index: number, array: any[]){
@@ -45,7 +49,7 @@ export class FriendsPage {
                   })
                 }
               }
-            });
+            }));
           });
           var newitems = [];
           this.items.forEach(v => {
@@ -65,7 +69,7 @@ export class FriendsPage {
           })
         }
       })
-    });
+    }));
   }
   clicked(item: BCIUserData){
     this.navCtrl.push(ChatPage, {item: item});
@@ -76,6 +80,8 @@ export class FriendsPage {
     addfriendmodal.present();
   }
   logout(){
+    this.tsub.unsubscribe();
+    this.subs.forEach(x => x.unsubscribe());
     this.auth.signOut();
   }
 }
