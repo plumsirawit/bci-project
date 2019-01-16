@@ -64,6 +64,7 @@ export class AddFriendPage {
                       this.firestore.doc<ChatData>('bci_users/'+e[0].bid+'/chats/'+docu.id).delete().catch(error => console.log(error));
                       ready = true;
                     });
+                    ready = false;
                   }
                 })
                 this.firestore.collection<PhoneUserData>('phone_users',ref => ref.where('UID','==',e[0].conn)).snapshotChanges().map(actions => actions.map(y => {

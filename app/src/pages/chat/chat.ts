@@ -58,8 +58,9 @@ export class ChatPage {
   }
   sendMessage() {
     if(this.data.data != ''){
+      console.log(this.bci_id);
       this.data.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      this.firestore.collection<ChatData>('bci_users/'+this.bci_id+'/chats').add(this.data);
+      this.firestore.collection('bci_users').doc(this.bci_id).collection<ChatData>('chats').add(this.data);
       this.data.data = '';
     }
   }

@@ -23,7 +23,7 @@ export class MyApp {
       setTimeout( () => {
       this.auth.afAuth.authState.subscribe(
         user => {
-          if (user) {
+          if (user && user.emailVerified) {
             this.rootPage = FriendsPage;
           } else {
             this.rootPage = LoginPage;

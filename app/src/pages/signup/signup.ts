@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, Alert } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
@@ -11,10 +11,9 @@ import { FriendsPage } from '../friends/friends';
 	templateUrl: './signup.html'
 })
 export class SignupPage {
-	signupError: string;
 	form: FormGroup;
-
-	constructor(fb: FormBuilder, private auth: AuthService, private navCtrl: NavController, private firestore: AngularFirestore) {
+  currentAlert: Alert;
+	constructor(fb: FormBuilder, private auth: AuthService, public alertCtrl: AlertController, private firestore: AngularFirestore) {
 		this.form = fb.group({
 			email: ['', Validators.compose([Validators.required, Validators.email])],
 			password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
@@ -32,9 +31,19 @@ export class SignupPage {
         UID: a.user.uid,
         conn: []
       });
-      this.navCtrl.setRoot(FriendsPage);
+      a.user.sendEmailVerification();
+      this.errorPrompt('A verificaiton email has been sent to your email. Please verify your email.', true);
     }).catch(err => {
-      this.signupError = err.message;
+      this.errorPrompt(err.message);
     })
+  }
+
+  errorPrompt(err, chk=false) {
+    this.currentAlert = this.alertCtrl.create({
+      title: chk ? 'Email Verification' : 'Error',
+      message: err,
+      buttons: ['OK']
+    });
+    this.currentAlert.present();
   }
 }

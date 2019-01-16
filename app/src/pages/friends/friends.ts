@@ -6,6 +6,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
 import { BCIUserData } from '../../models/bciuserdata.interface';
 import { AddFriendPage } from '../addfriend/addfriend';
+import { LoginPage } from '../login/login';
 
 @Component({
   selector: 'page-friends',
@@ -14,6 +15,10 @@ import { AddFriendPage } from '../addfriend/addfriend';
 export class FriendsPage {
   items: BCIUserData[];
   constructor(public navCtrl: NavController, private auth: AuthService, private firestore: AngularFirestore, public modalCtrl: ModalController) {
+    if(!this.auth.authenticated){
+      this.navCtrl.setRoot(LoginPage);
+      return;
+    }
     this.items = [];
     this.firestore.collection<PhoneUserData>('phone_users').snapshotChanges().map(actions => actions.map(a => {
         const data = a.payload.doc.data();
@@ -69,5 +74,8 @@ export class FriendsPage {
   addfriend(){
     let addfriendmodal = this.modalCtrl.create(AddFriendPage);
     addfriendmodal.present();
+  }
+  logout(){
+    this.auth.signOut();
   }
 }

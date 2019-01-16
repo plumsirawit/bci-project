@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, AlertController, Alert } from 'ionic-angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SignupPage } from '../signup/signup';
@@ -11,8 +11,8 @@ import { FriendsPage } from '../friends/friends';
 })
 export class LoginPage {
   loginForm: FormGroup;
-  loginError: string;
-  constructor(public navCtrl: NavController, private auth: AuthService, fb: FormBuilder) {
+  currentAlert: Alert;
+  constructor(public navCtrl: NavController, private auth: AuthService, fb: FormBuilder, public alertCtrl: AlertController) {
     this.loginForm = fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
@@ -30,13 +30,48 @@ export class LoginPage {
     };
     this.auth.signInWithEmail(credentials)
       .then(
-        () => this.navCtrl.setRoot(FriendsPage),
-        error => this.loginError = error.message
+        usrc => {
+          if(usrc.user && !usrc.user.emailVerified){
+            this.errorPrompt('Email not verified.',usrc);
+          }else if(usrc.user && usrc.user.emailVerified){
+            this.navCtrl.setRoot(FriendsPage);
+          }
+        },
+        error => this.errorPrompt(error)
       );
   }
 
   signup(){
     this.navCtrl.push(SignupPage);
+  }
+  
+  errorPrompt(err,chk:firebase.auth.UserCredential=null){
+    if(chk){
+      this.currentAlert = this.alertCtrl.create({
+        title: 'Error',
+        message: err,
+        buttons: [{
+          text: 'OK',
+          role: 'cancel'
+        },{
+          text: 'Resend Veification Email',
+          handler: () => {
+            chk.user.sendEmailVerification();
+          }
+        }]
+      })
+    }else{
+      this.currentAlert = this.alertCtrl.create({
+        title: 'Error',
+        message: err,
+        buttons: ['OK']
+      });
+    }
+    this.currentAlert.present();
+  }
+
+  forgotPassword(){
+    console.log('Forgot Password');
   }
 }
 
