@@ -53,7 +53,7 @@ export class AddFriendPage {
                 curdid = "";
                 var insubprocess = false;
                 var ready = true;
-                this.firestore.collection<ChatData>('bci_users/'+e[0].bid+'/chat').snapshotChanges().map(actions => actions.map(a => {
+                this.firestore.collection<ChatData>('bci_users/'+e[0].bid+'/chats').snapshotChanges().map(actions => actions.map(a => {
                   const data = a.payload.doc.data();
                   const id = a.payload.doc.id;
                   return {id, ...data};
@@ -61,8 +61,7 @@ export class AddFriendPage {
                   if(ready){
                     vch.forEach(docu => {
                       ready = false;
-                      console.log(docu.id);
-                      this.firestore.doc<ChatData>('bci_users/'+e[0].bid+'/chat/'+docu.id).delete().catch(error => console.log(error));
+                      this.firestore.doc<ChatData>('bci_users/'+e[0].bid+'/chats/'+docu.id).delete().catch(error => console.log(error));
                       ready = true;
                     });
                   }
