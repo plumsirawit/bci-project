@@ -20,7 +20,7 @@ export class FriendsPage {
       return;
     }
     this.items = [];
-    this.firestore.collection<PhoneUserData>('phone_users').snapshotChanges().map(actions => actions.map(a => {
+    this.firestore.collection<PhoneUserData>('phone_users', ref => ref.where('UID','==',this.auth.getUID())).snapshotChanges().map(actions => actions.map(a => {
         const data = a.payload.doc.data();
         const id = a.payload.doc.id;
         return {id, ...data};
