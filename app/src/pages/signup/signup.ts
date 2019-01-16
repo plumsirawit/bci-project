@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController, AlertController, Alert } from 'ionic-angular';
+import { AlertController, Alert } from 'ionic-angular';
 import { AuthService } from '../../services/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { PhoneUserData } from '../../models/phoneuserdata.interface';
-import { FriendsPage } from '../friends/friends';
 
 @Component({
 	selector: 'page-signup',
