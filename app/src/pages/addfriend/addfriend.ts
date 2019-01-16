@@ -110,4 +110,7 @@ export class AddFriendPage {
     });
     this.navCtrl.pop();
   }
+  exitModal(){
+    this.navCtrl.pop();
+  }
 }
