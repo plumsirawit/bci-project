@@ -17,7 +17,7 @@
         <ion-input type="password" placeholder="Password" formControlName="password"></ion-input>
       </ion-item>
       <div ngxErrors="password" #passwordErrors="ngxErrors">
-        <div [ngxError]="['minlength', 'required']" [when]="['touched']">It should be at least 8 characters</div>
+        <div [ngxError]="['minlength', 'required']" [when]="['touched']">It should be at least 6 characters</div>
       </div>
     </ion-list>
     <div padding-horizontal>

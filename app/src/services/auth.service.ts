@@ -36,4 +36,8 @@ export class AuthService {
   signOut(): Promise<void> {
     return this.afAuth.auth.signOut();
   }
+
+  resetEmail(email) {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+  }
 }

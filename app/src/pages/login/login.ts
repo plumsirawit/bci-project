@@ -15,7 +15,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, private auth: AuthService, fb: FormBuilder, public alertCtrl: AlertController) {
     this.loginForm = fb.group({
       email: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.compose([Validators.required, Validators.minLength(8)])]
+      password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
   }
 
@@ -71,7 +71,38 @@ export class LoginPage {
   }
 
   forgotPassword(){
-    console.log('Forgot Password');
+    this.currentAlert = this.alertCtrl.create({
+      title: 'Reset Password',
+      message: 'Please enter your email',
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Email'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Reset',
+          handler: data => {
+            this.auth.resetEmail(data.email).then(succ => {
+              this.currentAlert = this.alertCtrl.create({
+                title: 'Success',
+                message: 'Password resetting email sent',
+                buttons: ['OK']
+              });
+              this.currentAlert.present();
+            }, error => {
+              this.errorPrompt(error);
+            });
+          }
+        }
+      ]
+    });
+    this.currentAlert.present();
   }
 }
 
