@@ -7,7 +7,7 @@ import { PhoneUserData } from '../../models/phoneuserdata.interface';
 import { FriendsPage } from '../friends/friends';
 
 @Component({
-	selector: 'as-page-signup',
+	selector: 'page-signup',
 	templateUrl: './signup.html'
 })
 export class SignupPage {
