@@ -7,7 +7,7 @@ import { PhoneUserData } from '../../models/phoneuserdata.interface';
 import { BCIUserData } from '../../models/bciuserdata.interface';
 import { AddFriendPage } from '../addfriend/addfriend';
 import { LoginPage } from '../login/login';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'page-friends',
