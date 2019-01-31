@@ -1,4 +1,8 @@
-int c;
+import processing.net.*;
+
+char dataIn;
+boolean haltState = false;
+long c;
 ArrayList<PImage> scr = new ArrayList<PImage>();
 String mask = "ABIJCDKLQRYZST01EFMNGHOPUV23WX4567:;89_#&{/\\}(+=.?><,!%@)[*-]\"^$";
 void setup() {
@@ -6,50 +10,78 @@ void setup() {
     String fName = "SCR_" + Integer.toString(i) + ".png";
     scr.add(loadImage(fName));
   }
-  fullScreen();
+  fullScreen(P2D);
   background(0);
   textFont(createFont("Consolas", 320));
   textAlign(CENTER);
   fill(255);
   c = 0;
+  frameRate(60);
 }
 int currentState = 0;
 final int UPPERLEFT = 1;
 final int UPPERRIGHT = 2;
 final int LOWERLEFT = 3;
 final int LOWERRIGHT = 4;
+long syncTime(){
+  long ml = System.currentTimeMillis();
+  double mld = ml;
+  double rf = mld*60.0/1000.0;
+  long rl = (long)rf;
+  return rl;
+}
 void disp(int part){
-
   switch(part) {
     case UPPERLEFT:
-    image(scr.get(currentState*4+1), 0, 0, width/2, height/2);
+    image(scr.get(currentState*4+1), 0, 0, width/3, height/3);
     break;
     case UPPERRIGHT:
-    image(scr.get(currentState*4+2), width/2, 0, width/2, height/2);
+    image(scr.get(currentState*4+2), 2*width/3, 0, width/3, height/3);
     break;
     case LOWERLEFT:
-    image(scr.get(currentState*4+3), 0, height/2, width/2, height/2);
+    image(scr.get(currentState*4+3), 0, 2*height/3, width/3, height/3);
     break;
     case LOWERRIGHT:
-    image(scr.get(currentState*4+4), width/2, height/2, width/2, height/2);
+    image(scr.get(currentState*4+4), 2*width/3, 2*height/3, width/3, height/3);
     break;
   }
 }
 void draw() {
-  background(0);
-  if(c % 4 < 2)
-  disp(UPPERLEFT);
-  if(c % 6 < 3)
-  disp(UPPERRIGHT);
-  if(c % 14 < 7)
-  disp(LOWERLEFT);
-  if(c % 20 < 10)
-  disp(LOWERRIGHT);
-  c++;
+  println(frameRate);
+  String[] lines = loadStrings("C:/Users/User/Desktop/socket.txt");
+  if(lines.length < 1 || lines[0].length() < 1){
+    ;
+  }else if(lines[0].charAt(0) != '0' && lines[0].charAt(0) != '5'){
+    dataIn = lines[0].charAt(0);
+    String[] wlines = {"5"};
+    saveStrings("C:/Users/User/Desktop/socket.txt",wlines);
+    haltState = true;
+  }
+  if(!haltState){
+    background(0);
+    if(c > 60)
+      c = syncTime();
+    if(c % 4 < 2)
+    disp(UPPERLEFT);
+    //if(c % 5 < 3)
+    //disp(UPPERRIGHT);
+    //if(c % 6 < 3)
+    //disp(LOWERLEFT);
+    if(c % 7 < 4)
+    disp(LOWERRIGHT);
+    c++;
+  }else{
+    background(0);
+    text(Character.toString(dataIn),500,500);
+  }
 }
 
 void keyPressed() {
   if (keyPressed) {
+    String[] wlines = {"0"};
+    saveStrings("C:/Users/User/Desktop/socket.txt",wlines);
+    haltState = false;
+    c = syncTime();
     switch (key) {
       case '1':
       currentState *= 4;
