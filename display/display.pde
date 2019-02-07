@@ -1,10 +1,9 @@
-import processing.net.*;
-
 char dataIn;
 boolean haltState = false;
 long c;
 ArrayList<PImage> scr = new ArrayList<PImage>();
 String mask = "ABIJCDKLQRYZST01EFMNGHOPUV23WX4567:;89_#&{/\\}(+=.?><,!%@)[*-]\"^$";
+StringBuilder currentString = new StringBuilder();
 void setup() {
   for(int i = 0; i <= 84; i++){
     String fName = "SCR_" + Integer.toString(i) + ".png";
@@ -12,11 +11,11 @@ void setup() {
   }
   fullScreen(P2D);
   background(0);
-  textFont(createFont("Consolas", 320));
   textAlign(CENTER);
   fill(255);
   c = 0;
   frameRate(60);
+
 }
 int currentState = 0;
 final int UPPERLEFT = 1;
@@ -63,15 +62,18 @@ void draw() {
       c = syncTime();
     if(c % 4 < 2)
     disp(UPPERLEFT);
-    //if(c % 5 < 3)
-    //disp(UPPERRIGHT);
-    //if(c % 6 < 3)
-    //disp(LOWERLEFT);
+    if(c % 5 < 3)
+      disp(UPPERRIGHT);
+    if(c % 6 < 3)
+      disp(LOWERLEFT);
     if(c % 7 < 4)
-    disp(LOWERRIGHT);
+      disp(LOWERRIGHT);
     c++;
+    textFont(createFont("Consolas", 32));
+    text(currentString.toString(), width/2, height/2);
   }else{
     background(0);
+    textFont(createFont("Consolas", 320));
     text(Character.toString(dataIn),500,500);
   }
 }
@@ -104,8 +106,11 @@ void keyPressed() {
       break;
     }
   }
-  if(currentState >= 21 && currentState <= 84){
-    println(mask.charAt(currentState - 21));
+  if(currentState == 84){
+    currentString.setLength(0);
+    currentState = 0;
+  }else if(currentState >= 21 && currentState < 84){
+    currentString.append(mask.charAt(currentState - 21));
     currentState = 0;
   }
 }
