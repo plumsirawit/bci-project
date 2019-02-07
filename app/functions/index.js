@@ -6,21 +6,30 @@ exports.sendMessage = functions.https.onRequest((request, response) => {
     const uid = request.query.UID;
     const msg = request.query.message;
     console.log(uid, msg);
-    return admin.firestore().collection('bci_users').where('id','==',uid).get().then(snapshot => {
+    return admin.firestore().collection('bci_users').where('id','==',uid).get()
+    .then(snapshot => {
         var did = "";
         snapshot.forEach(doc => {
             did = doc.id;
         });
-        if(did == ""){
-            return response.status(404);
+        if(did != ""){
+            return admin.firestore().collection('bci_users').doc(did).collection('chats').add({
+                data: msg,
+                read: false,
+                sender: 'bci',
+                timestamp: admin.firestore.FieldValue.serverTimestamp(),
+                type: "message"
+            });
+        }else{
+            return false;
         }
-        return admin.firestore().collection('bci_users').doc(did).collection('chats').add({
-            data: msg,
-            read: false,
-            sender: 'bci',
-            timestamp: admin.firestore.FieldValue.serverTimestamp(),
-            type: "message"
-        }).then(() => response.send("OK"));
+    })
+    .then(result => {
+        if(result === false){
+            return response.status(404);
+        }else{
+            return response.send("OK");
+        }
     });
 });
 // // Create and Deploy Your First Cloud Functions
