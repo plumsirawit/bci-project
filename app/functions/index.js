@@ -32,6 +32,41 @@ exports.sendMessage = functions.https.onRequest((request, response) => {
         }
     });
 });
+function makeid() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 10; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+}
+
+exports.newBCI = functions.https.onRequest((req, res) => {
+    return admin.firestore().collection('bci_users').get()
+    .then(snapshot => {
+        ids = {};
+        snapshot.forEach(doc => {
+            ids[doc.id] = true;
+        });
+        var cur = makeid();
+        while(cur in ids){
+            cur = makeid();
+        }
+        return cur;
+    })
+    .then(uid => {
+        return admin.firestore().collection('bci_users').add({
+            conn: "",
+            id: uid,
+            name: ""
+        });
+    })
+    .then(result => {
+        return result.get();
+    })
+    .then(gett => {
+        return res.send(gett.get('id'));
+    });
+});
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //

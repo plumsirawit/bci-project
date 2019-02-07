@@ -1,21 +1,48 @@
+import processing.net.*;
+import controlP5.*;
+
+ControlP5 cp5;
+
 char dataIn;
 boolean haltState = false;
 long c;
 ArrayList<PImage> scr = new ArrayList<PImage>();
 String mask = "ABIJCDKLQRYZST01EFMNGHOPUV23WX4567:;89_#&{/\\}(+=.?><,!%@)[*-]\"^$";
 StringBuilder currentString = new StringBuilder();
+String sendMessageUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/sendMessage";
+String newBCIUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/newBCI";
+String UID;
+Client LSLClient;
+boolean regisName = false;
 void setup() {
   for(int i = 0; i <= 84; i++){
     String fName = "SCR_" + Integer.toString(i) + ".png";
     scr.add(loadImage(fName));
   }
   fullScreen(P2D);
+  cp5 = new ControlP5(this);
   background(0);
   textAlign(CENTER);
   fill(255);
   c = 0;
   frameRate(60);
-
+  LSLClient = new Client(this, "127.0.0.1", 5204);
+  UID = loadStrings(newBCIUrl)[0];
+  cp5.addTextfield("Name")
+  .setCaptionLabel("")
+  .setPosition(width/2 - 100, height/2 + 20)
+  .setSize(200,40)
+  .setFont(createFont("Consolas", 32))
+  .setAutoClear(false);
+  
+  cp5.addButton("OK")
+  .setPosition(width/2 - 50, height/2 + 70)
+  .setSize(100, 40)
+  .setValue(0);
+}
+public void OK(int theValue) {
+  println(cp5.get(Textfield.class, "Name").getText());
+  if(theValue != 0) cp5.get(Textfield.class, "Name").hide();
 }
 int currentState = 0;
 final int UPPERLEFT = 1;
@@ -46,43 +73,42 @@ void disp(int part){
   }
 }
 void draw() {
-  println(frameRate);
-  String[] lines = loadStrings("C:/Users/User/Desktop/socket.txt");
-  if(lines.length < 1 || lines[0].length() < 1){
-    ;
-  }else if(lines[0].charAt(0) != '0' && lines[0].charAt(0) != '5'){
-    dataIn = lines[0].charAt(0);
-    String[] wlines = {"5"};
-    saveStrings("C:/Users/User/Desktop/socket.txt",wlines);
-    haltState = true;
-  }
-  if(!haltState){
+  //println(frameRate);
+  if(!regisName){
     background(0);
-    if(c > 60)
-      c = syncTime();
-    if(c % 4 < 2)
-    disp(UPPERLEFT);
-    if(c % 5 < 3)
-      disp(UPPERRIGHT);
-    if(c % 6 < 3)
-      disp(LOWERLEFT);
-    if(c % 7 < 4)
-      disp(LOWERRIGHT);
-    c++;
     textFont(createFont("Consolas", 32));
-    text(currentString.toString(), width/2, height/2);
+    text("Please enter your name:", width/2, height/2);
   }else{
-    background(0);
-    textFont(createFont("Consolas", 320));
-    text(Character.toString(dataIn),500,500);
+    if(LSLClient.available() > 0){
+      dataIn = LSLClient.readChar();
+      currentState *= 4;
+      currentState += dataIn - 48;
+    }
+    if(!haltState){
+      background(0);
+      if(c > 60)
+        c = syncTime();
+      if(c % 4 < 2)
+      disp(UPPERLEFT);
+      if(c % 5 < 3)
+        disp(UPPERRIGHT);
+      if(c % 6 < 3)
+        disp(LOWERLEFT);
+      if(c % 7 < 4)
+        disp(LOWERRIGHT);
+      c++;
+      textFont(createFont("Consolas", 32));
+      text(currentString.toString(), width/2, height/2);
+    }else{
+      background(0);
+      textFont(createFont("Consolas", 320));
+      text(Character.toString(dataIn),500,500);
+    }
   }
 }
 
 void keyPressed() {
   if (keyPressed) {
-    String[] wlines = {"0"};
-    saveStrings("C:/Users/User/Desktop/socket.txt",wlines);
-    haltState = false;
     c = syncTime();
     switch (key) {
       case '1':
@@ -107,6 +133,7 @@ void keyPressed() {
     }
   }
   if(currentState == 84){
+    loadStrings(sendMessageUrl + "?UID=" + UID + "&message=" + currentString.toString());
     currentString.setLength(0);
     currentState = 0;
   }else if(currentState >= 21 && currentState < 84){
