@@ -11,6 +11,7 @@ String mask = "ABIJCDKLQRYZST01EFMNGHOPUV23WX4567:;89_#&{/\\}(+=.?><,!%@)[*-]\"^
 StringBuilder currentString = new StringBuilder();
 String sendMessageUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/sendMessage";
 String newBCIUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/newBCI";
+String setNameUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/setName";
 String UID;
 Client LSLClient;
 boolean regisName = false;
@@ -41,8 +42,13 @@ void setup() {
   .setValue(0);
 }
 public void OK(int theValue) {
-  println(cp5.get(Textfield.class, "Name").getText());
-  if(theValue != 0) cp5.get(Textfield.class, "Name").hide();
+  String name = cp5.get(Textfield.class, "Name").getText();
+  if(name.length() > 0){
+    cp5.get(Textfield.class, "Name").hide();
+    cp5.get(Button.class, "OK").hide();
+    regisName = true;
+    loadStrings(setNameUrl + "?UID=" + UID + "&name=" + name);
+  }
 }
 int currentState = 0;
 final int UPPERLEFT = 1;
@@ -78,6 +84,7 @@ void draw() {
     background(0);
     textFont(createFont("Consolas", 32));
     text("Please enter your name:", width/2, height/2);
+    text("Your PIN is " + UID, width/2, height/2 + 200);
   }else{
     if(LSLClient.available() > 0){
       dataIn = LSLClient.readChar();

@@ -67,6 +67,35 @@ exports.newBCI = functions.https.onRequest((req, res) => {
         return res.send(gett.get('id'));
     });
 });
+
+exports.setName = functions.https.onRequest((req,res) => {
+    const uid = req.query.UID;
+    const name = req.query.name;
+    return admin.firestore().collection('bci_users').where('id','==',uid).get()
+    .then(snapshot => {
+        var did = "";
+        snapshot.forEach(x => {
+            did = x.id;
+        });
+        return did;
+    })
+    .then(did => {
+        if(did){
+            return admin.firestore().collection('bci_users').doc(did).update({
+                name: name
+            });
+        }else{
+            return false;
+        }
+    })
+    .then(result => {
+        if(result === false){
+            res.status(404);
+        }else{
+            res.send("OK");
+        }
+    });
+})
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
