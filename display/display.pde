@@ -12,7 +12,7 @@ StringBuilder currentString = new StringBuilder();
 String sendMessageUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/sendMessage";
 String newBCIUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/newBCI";
 String setNameUrl = "https://us-central1-bci-chat-app.cloudfunctions.net/setName";
-String UID;
+String UID = "";
 Client LSLClient;
 boolean regisName = false;
 void setup() {
@@ -43,7 +43,7 @@ void setup() {
 }
 public void OK(int theValue) {
   String name = cp5.get(Textfield.class, "Name").getText();
-  if(name.length() > 0){
+  if(name.length() > 0 && UID.length() > 0){
     cp5.get(Textfield.class, "Name").hide();
     cp5.get(Button.class, "OK").hide();
     regisName = true;
@@ -84,19 +84,27 @@ void draw() {
     background(0);
     textFont(createFont("Consolas", 32));
     text("Please enter your name:", width/2, height/2);
-    text("Your PIN is " + UID, width/2, height/2 + 200);
+    text("Your PIN is " + UID, width/2, 2*height/3);
   }else{
     if(LSLClient.available() > 0){
       dataIn = LSLClient.readChar();
       currentState *= 4;
       currentState += dataIn - 48;
+      if(currentState == 84){
+        loadStrings(sendMessageUrl + "?UID=" + UID + "&message=" + currentString.toString());
+        currentString.setLength(0);
+        currentState = 0;
+      }else if(currentState >= 21 && currentState < 84){
+        currentString.append(mask.charAt(currentState - 21));
+        currentState = 0;
+      }
     }
     if(!haltState){
       background(0);
       if(c > 60)
         c = syncTime();
       if(c % 4 < 2)
-      disp(UPPERLEFT);
+        disp(UPPERLEFT);
       if(c % 5 < 3)
         disp(UPPERRIGHT);
       if(c % 6 < 3)
